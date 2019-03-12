@@ -1,3 +1,11 @@
+4.0.0 / {{DATE..}}
+===================
+  * use binaries of meteor project version instead not current meteor version
+  * update electron-packager
+  * kill hanging mongo process when closing in development mode on linux/macOs
+  * TODO: electron as peerDependency?
+  * TODO: add port pull request 
+
 3.0.0 / 2017-07-31
 ==================
   * Removed the atmosphere part of electrify -> created new meteor-electrify-client npm package

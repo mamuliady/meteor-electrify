@@ -26,8 +26,8 @@ describe('[electrify] run and package', function(){
   var electrify;
   var pkg_app_dir;
 
-  var meteor_bin = 'meteor' + (process.platform == 'win32' ? '.bat' : '');
-  var git_bin = 'git' + (process.platform == 'win32' ? '.exe' : '');
+  var meteor_bin = 'meteor' + (process.platform === 'win32' ? '.bat' : '');
+  var git_bin = 'git' + (process.platform === 'win32' ? '.exe' : '');
 
   before(function(done){
 
@@ -69,26 +69,27 @@ describe('[electrify] run and package', function(){
       cwd: tests_dir,
       stdio: stdio_config
     }).on('exit', function(){
-      //init electrify
-      shell.mkdir('-p', meteor_electrified_dir);
-      electrify = Electrify(meteor_electrified_dir);
-      shell.rm('-rf', electrify.env.core.root);
+      //run meteor command first (for initializing meteor version for project)
+      // remove mobile platforms
+      spawn(meteor_bin, ['remove-platform', 'android', 'ios'], {
+        cwd: meteor_app_dir,
+        stdio: stdio_config
+      }).on('exit', function(){
+        fs.writeFileSync(path.join(meteor_app_dir, 'package.json'),
+          JSON.stringify({name: "meteor-leaderboard-example"}));
 
-      electrify.app.init(function(){
-        // remove mobile platforms
-        spawn(meteor_bin, ['remove-platform', 'android', 'ios'], {
+        // add electrify client package
+        spawn(meteor_bin, ['npm', 'install', '--save', 'meteor-electrify-client'], {
           cwd: meteor_app_dir,
-          stdio: stdio_config
-        }).on('exit', function(){
-          fs.writeFileSync(path.join(meteor_app_dir, 'package.json'),
-            JSON.stringify({name: "meteor-leaderboard-example"}));
+          stdio: stdio_config,
+          env: process.env
+        }).on('exit', function() {
+          //init electrify
+          shell.mkdir('-p', meteor_electrified_dir);
+          electrify = Electrify(meteor_electrified_dir);
+          shell.rm('-rf', electrify.env.core.root);
 
-          // add electrify client package
-          spawn(meteor_bin, ['npm', 'install', '--save', 'meteor-electrify-client'], {
-            cwd: meteor_app_dir,
-            stdio: stdio_config,
-            env: process.env
-          }).on('exit', done);
+          electrify.app.init(done);
         });
       });
     });
@@ -128,18 +129,33 @@ describe('[electrify] run and package', function(){
 
   });
 
+  function ElectrifyStopHandler(electrify, timeout) {
+    var toh = setTimeout(function() {
+      electrify.stop();
+      throw 'Electrify not stopped gracefully, stopped after timeout of ' + (timeout / 1000) + ' seconds';
+    }, timeout);
+
+    this.stop = function(callback) {
+      if (toh) {
+        clearTimeout(toh);
+        electrify.stop(callback);
+      }
+    };
+  }
 
   it('should start / stop the app, in production', function(done){
 
     var entry_point = shell.find(pkg_app_dir).filter(function(file) {
       return /app([\\\/])index\.js$/m.test(file);
     })[0];
-    
+
     var base_dir = path.dirname(entry_point);
 
     var new_electrify  = Electrify(base_dir);
-    new_electrify.start(function(meteor_url){
 
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 15000);
+
+    new_electrify.start(function(meteor_url){
       // validates if page is responding
       http.get(meteor_url, function(res) {
         res.setEncoding('utf8');
@@ -148,7 +164,7 @@ describe('[electrify] run and package', function(){
           // test if body has the meteor config object declared
           /__meteor_runtime_config__/.test(body).should.be.ok();
 
-          new_electrify.stop();
+          electrifyStopHandler.stop();
 
           // give sometime before proceeding, so next tests
           // will have a good time on slow windows machines
@@ -165,10 +181,13 @@ describe('[electrify] run and package', function(){
     var entry_point = shell.find(pkg_app_dir).filter(function(file) {
       return /app([\\\/])index\.js$/m.test(file);
     })[0];
-    
+
     var base_dir = path.dirname(entry_point);
 
     var new_electrify  = Electrify(base_dir);
+
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 15000);
+
     new_electrify.start(function(meteor_url){
 
       // validates if page is responding
@@ -179,7 +198,7 @@ describe('[electrify] run and package', function(){
           // test if body has the meteor config object declared
           /__meteor_runtime_config__/.test(body).should.be.ok();
 
-          new_electrify.stop();
+          electrifyStopHandler.stop();
 
           // give sometime before the final analysys, so next tests
           // will have a good time on slow windows machines
@@ -231,6 +250,8 @@ describe('[electrify] run and package', function(){
       }
     });
 
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 15000);
+
     new_electrify.start(function(){
 
       new_electrify.isup().should.equal(true);
@@ -242,7 +263,7 @@ describe('[electrify] run and package', function(){
         sum.should.equal('6');
         error.should.equal('method `yellow.elephant` was not defined');
 
-        new_electrify.stop(function(){
+        electrifyStopHandler.stop(function(){
           setTimeout(done, 500);
         });
       }, 1000);

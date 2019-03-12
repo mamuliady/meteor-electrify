@@ -1,12 +1,12 @@
 {
   "name": "meteor-electrify",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "main": "lib/index.js",
   "bin": {
     "electrify": "bin/cli.js"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   },
   "files": [
     "bin",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^2.10.0",
-    "electron": "^3.1.1",
+    "electron": "^4.0.8",
     "electron-packager": "^13.0.1",
     "fs-extra": "^4.0.0",
     "lodash": "^4.17.11",
