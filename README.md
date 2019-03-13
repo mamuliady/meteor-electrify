@@ -147,14 +147,14 @@ with further steps that are not in scope of this project.
 ## Options
 
 1. `-i, --input` - Meteor app folder, default is current directory (`process.cwd()`).
-1. `-o, --output` - Sets output folder for your packaged app, default is
+2. `-o, --output` - Sets output folder for your packaged app, default is
 `/your/meteor/app/.dist`
-1. `-s, --settings` - Sets path for Meteor
+3. `-s, --settings` - Sets path for Meteor
 [settings](http://docs.meteor.com/#/full/meteor_settings) file, this will be
 available inside your Meteor code both in development and after being packaged.
-1. `-t, --temp` - Sets a temp folder other than the system temp folder to prevent moving errors (tmp and destination should be on the same partition)
-1. `-a, --arch` - Sets a different arch for building NOTICE: only the current arch will work "out of the box"
-1. `-p, --platform` - Sets a different platform for building NOTICE: only the current platform will work "out of the box"
+4. `-t, --temp` - Sets a temp folder other than the system temp folder to prevent moving errors (tmp and destination should be on the same partition)
+5. `-a, --arch` - Sets a different arch for building NOTICE: only the current arch will work "out of the box"
+6. `-p, --platform` - Sets a different platform for building NOTICE: only the current platform will work "out of the box"
 
 ## Structure
 
@@ -185,11 +185,12 @@ plugins and so on. It's still a WIP, but you can get around it.
 
 ### Config (`electrify.json`)
 
-For now there's only one option here: `preserve_db`.
+For now there are only two option here:
 
-Set it to true to preserve database between installs. It works by saving the
-mongo data dir inside user's data folder, instead of being self contained within
-the app folder (which gets deleted when new version is installed).
+1. `preserve_db` - Set it to true to preserve database between installs. It works by saving the
+                   mongo data dir inside user's data folder, instead of being self contained within
+                   the app folder (which gets deleted when new version is installed).
+2. `port`        - Set a port to be used while in dev mode (can also be set by PORT environment variable)
 
 # Customizing
 

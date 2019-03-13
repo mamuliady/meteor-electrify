@@ -1,3 +1,22 @@
+var defaultElectrifyStopTimeout = process.env.ELECTRIFY_TESTS_DEFAULT_STOP_TIMEOUT || 15000;
+
+function ElectrifyStopHandler(electrify, timeout) {
+  if (timeout === undefined) {
+    timeout = defaultElectrifyStopTimeout;
+  }
+  var toh = setTimeout(function() {
+    electrify.stop();
+    throw 'Electrify not stopped gracefully, stopped after timeout of ' + (timeout / 1000) + ' seconds';
+  }, timeout);
+
+  this.stop = function(callback) {
+    if (toh) {
+      clearTimeout(toh);
+      electrify.stop(callback);
+    }
+  };
+}
+
 describe('[electrify] run and package', function(){
   
   this.timeout(60 * 60 * 1000); // 60mins
@@ -129,20 +148,6 @@ describe('[electrify] run and package', function(){
 
   });
 
-  function ElectrifyStopHandler(electrify, timeout) {
-    var toh = setTimeout(function() {
-      electrify.stop();
-      throw 'Electrify not stopped gracefully, stopped after timeout of ' + (timeout / 1000) + ' seconds';
-    }, timeout);
-
-    this.stop = function(callback) {
-      if (toh) {
-        clearTimeout(toh);
-        electrify.stop(callback);
-      }
-    };
-  }
-
   it('should start / stop the app, in production', function(done){
 
     var entry_point = shell.find(pkg_app_dir).filter(function(file) {
@@ -153,7 +158,7 @@ describe('[electrify] run and package', function(){
 
     var new_electrify  = Electrify(base_dir);
 
-    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 15000);
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify);
 
     new_electrify.start(function(meteor_url){
       // validates if page is responding
@@ -186,7 +191,7 @@ describe('[electrify] run and package', function(){
 
     var new_electrify  = Electrify(base_dir);
 
-    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 15000);
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify);
 
     new_electrify.start(function(meteor_url){
 
@@ -250,7 +255,7 @@ describe('[electrify] run and package', function(){
       }
     });
 
-    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 15000);
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify);
 
     new_electrify.start(function(){
 

@@ -8,13 +8,9 @@ install:
   - ps: Install-Product node $env:nodejs_version
   # install modules
   - npm install
-  # Download Meteor
-  - ps: Start-FileDownload 'https://s3.amazonaws.com/meteor-windows/InstallMeteor.exe'
-  # Install meteor
-  - .\InstallMeteor.exe /passive
-  # Restart
-  - ps: Start-Sleep -s 5
-  - ps: Restart-Computer -Force
+  # install Meteor (current version of leaderboard)
+  - choco install meteor --params "'/RELEASE:1.3.4.4'"
+  - refreshenv
 
 # Post-install test scripts.
 test_script:

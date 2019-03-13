@@ -4,7 +4,7 @@
   * update electron-packager
   * kill hanging mongo process when closing in development mode on linux/macOs
   * TODO: electron as peerDependency?
-  * TODO: add port pull request 
+  * add port config option / read PORT env in dev mode 
 
 3.0.0 / 2017-07-31
 ==================

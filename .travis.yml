@@ -8,7 +8,10 @@ node_js:
   - "6"
 
 env:
-  - CXX=g++-4.8
+  global:
+    - CXX=g++-4.8
+    - ELECTRIFY_TESTS_DEFAULT_STOP_TIMEOUT=60000
+
 addons:
   apt:
     sources:
