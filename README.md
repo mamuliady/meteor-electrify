@@ -1,11 +1,11 @@
-# (Meteor-)Electrify [![windows](https://img.shields.io/appveyor/ci/Mairu/meteor-electrify.svg?label=windows)](https://ci.appveyor.com/project/Mairu/meteor-electrify) [![travis](https://img.shields.io/travis/Mairu/meteor-electrify/master.svg?label=osx/linux)](https://travis-ci.org/Mairu/meteor-electrify) [![coverage](https://img.shields.io/codeclimate/coverage/github/Mairu/meteor-electrify.svg)](https://codeclimate.com/github/Mairu/meteor-electrify/coverage) [![join the chat at https://gitter.im/arboleya/electrify](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/arboleya/electrify)
+# (Meteor-)Electrify [![windows](https://img.shields.io/appveyor/ci/Mairu/meteor-electrify.svg?label=windows)](https://ci.appveyor.com/project/Mairu/meteor-electrify) [![travis](https://img.shields.io/travis/Mairu/meteor-electrify/master.svg?label=osx/linux)](https://travis-ci.org/Mairu/meteor-electrify) [![Test Coverage](https://api.codeclimate.com/v1/badges/949100a773b27b0ffc12/test_coverage)](https://codeclimate.com/github/Mairu/meteor-electrify/test_coverage)
 
 Easily package your Meteor apps with Electron, and *butter*.
 
 ## TL;DR
 
 ````shell
-npm install -g meteor-electrify
+npm install -g meteor-electrify electron
 cd /your/meteor/app
 electrify
 ````
@@ -58,12 +58,20 @@ $ electrify -h
 
 ## Installation
 
+Install meteor-electrify globally:
+
 ````shell
-npm install -g electrify
+npm install -g meteor-electrify electron
+````
+
+Alternatively you can install meteor-electrify and electron as dev dependency in you meteor application:
+
+````shell
+npm install --save-dev meteor-electrify electron
 ````
 
 > For invoking Electron methods from Meteor, you'll also need to install the
-> `arboleya:electrify` meteor package.
+> `meteor-electrify-client` package in your project.
 > For more info check [Meteor x Electron integration](#meteor-x-electron-integration).
 
 ## Running app
@@ -185,7 +193,7 @@ plugins and so on. It's still a WIP, but you can get around it.
 
 ### Config (`electrify.json`)
 
-For now there are only two option here:
+For now there are only two options here:
 
 1. `preserve_db` - Set it to true to preserve database between installs. It works by saving the
                    mongo data dir inside user's data folder, instead of being self contained within
@@ -291,5 +299,5 @@ the version of Meteor and Electrify, and any other info you may find usefull.
 
 The MIT License (MIT)
 
-Copyright (c) 2017 Sebastian Große  
+Copyright (c) 2017-2019 Sebastian Große  
 Electrify originally created by Copyright (c) 2015 Anderson Arboleya

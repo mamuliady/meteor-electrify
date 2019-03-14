@@ -7,6 +7,7 @@ var program   = require('commander');
 var spawn     = require('child_process').spawn;
 var log       = console.log;
 var _         = require('lodash');
+var requireElectron = require('../lib/require-electron');
 
 program
   .usage('[command] [options]')
@@ -55,21 +56,21 @@ program
 program
   .command('package')
   .description('bundle and package app to `--output` dir')
-  .action(package);
+  .action(packageApp);
 
 program.parse(process.argv);
 
 
 // default command = run
 var cmd = process.argv[2];
-if(process.argv.length == 2 || -1 == 'run|bundle|package'.indexOf(cmd) ){
+if(process.argv.length === 2 || -1 === 'run|bundle|package'.indexOf(cmd) ){
   run();
 }
 
 function run_electron(){
   var input         = program.input || process.cwd();
   var electrify_dir = join(input, '.electrify');
-  var electron_path = require('electron');
+  var electron_path = requireElectron();
   var settings      = parse_meteor_settings(true);
 
   if(settings)
@@ -103,7 +104,7 @@ function bundle(){
   electrify().app.bundle(/* server_url */);
 }
 
-function package(){
+function packageApp(){
   electrify().app.package(parse_packager_options());
 }
 
@@ -169,7 +170,7 @@ function parse_meteor_settings(return_path_only) {
 
   var relative = join(process.cwd(), program.settings);
   var absolute = path.resolve(program.settings);
-  var settings = (absolute == program.settings ? absolute : relative);
+  var settings = (absolute === program.settings ? absolute : relative);
 
   if(!fs.existsSync(settings)) {
     log('settings file not found: ', relative);

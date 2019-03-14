@@ -3,8 +3,8 @@
   * use binaries of meteor project version instead not current meteor version
   * update electron-packager
   * kill hanging mongo process when closing in development mode on linux/macOs
-  * TODO: electron as peerDependency?
   * add port config option / read PORT env in dev mode 
+  * remove electron as direct dependency to allow using a self chosen version
 
 3.0.0 / 2017-07-31
 ==================
