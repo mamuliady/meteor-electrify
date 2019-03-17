@@ -186,27 +186,63 @@ function parse_meteor_settings(return_path_only) {
 
 function parse_packager_options(){
   var names = [
-    '--icon',
-    '--app-bundle-id',
+    // all platforms
+    '--all',
+    '--app-copyright',
     '--app-version',
-    '--build-version',
-    '--cache',
-    '--helper-bundle-id',
-    '--ignore',
-    '--prune',
-    '--overwrite',
     '--asar',
-    '--asar-unpack',
-    '--sign',
-    '--version-string'
+    '--asar.ordering',
+    '--asar.unpack',
+    '--asar.unpackDir',
+    '--build-version',
+    '--executable-name',
+    '--extra-resource',
+    '--icon',
+    '--ignore',
+    '--no-deref-symlinks',
+    '--no-prune',
+    '--prebuilt-asar',
+    '--overwrite',
+    // darwin
+    '--app-bundle-id',
+    '--app-category-type',
+    '--darwin-dark-mode-support',
+    '--extend-info',
+    '--helper-bundle-id',
+    '--osx-sign',
+    '--osx-sign.identity',
+    '--osx-sign.entitlements',
+    '--osx-sign.entitlements-inherit',
+    '--osx-notarize.appleId',
+    '--osx-notarize.appleIdPassword',
+    '--protocol', // -->> array with, schema
+    '--protocol-name',
+    // win32
+    '--win32metadata.CompanyName',
+    '--win32metadata.FileDescription',
+    '--win32metadata.OriginalFilename',
+    '--win32metadata.ProductName',
+    '--win32metadata.InternalName',
+    '--win32metadata.requested-execution-level',
+    '--win32metadata.application-manifest',
   ];
+
+  var getOptionName = function (argName) {
+    var parts = argName.split('-');
+    var optionName = parts.shift();
+    return optionName + parts.map(function(s) {
+      return s[0].toUpperCase() + s.substr(1);
+    }).join('');
+  };
 
   var dashdash = process.argv.indexOf('--');
   var options = {};
 
-  if(~dashdash) {
+  if(dashdash !== -1) {
 
     var args = process.argv.slice(dashdash+1);
+
+    var protocols = {};
 
     _.each(args, function(arg){
 
@@ -214,16 +250,42 @@ function parse_packager_options(){
       var key = parts[0];
       var val = 'undefined' === typeof(parts[1]) ? true : parts[1];
     
-      if(~names.indexOf(key)) {
-        if (key === '--app-version') {
-            options.appVersion = val;
-        } else {
-          options[key.slice(2)] = val;
+      if(names.includes(key)) {
+        var argName = key.slice(2);
+        var objectParts = argName.split('.');
+        argName = objectParts[0];
+
+        if (argName.substr(0, 3) === 'no-') {
+          argName = argName.substr(3);
+          val = false;
         }
+        var optionName = getOptionName(argName);
+
+        if (optionName === 'protocol') {
+          protocols.schemas = [val];
+          return;
+        } else if (optionName === 'protocolName') {
+          protocols.name = val;
+          return;
+        }
+
+        if (objectParts[1]) {
+          val = Object.assign(
+            {},
+            typeof options[optionName] === 'object' ? options[optionName] : {},
+            { [objectParts[1]]: val }
+            );
+        }
+
+        options[optionName] = val;
       } else {
         log('Option `' + key + '` doens\'t exist, ignoring it');
       }
     });
+
+    if (protocols.name && protocols.schemas) {
+      options.protocols = protocols;
+    }
   }
 
   return options;
