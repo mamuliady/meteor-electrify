@@ -58,7 +58,7 @@ $ electrify -h
 
 ## Installation
 
-Install meteor-electrify globally:
+Install meteor-electrify and electron globally:
 
 ````shell
 npm install -g meteor-electrify electron
@@ -287,8 +287,7 @@ Do not open issues, use the chat channel instead.
 
 ## Problems?
 
-This is very young and active software, so make sure your are always up to date
-before opening an issue. Follow the released fixes through the
+Please make sure your are always up to date before opening an issue. Follow the released fixes through the
 [HISTORY.md](HISTORY.md) file.
 
 If you find any problem, please open a meaningful issue describing in detail how

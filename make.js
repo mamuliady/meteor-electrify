@@ -7,9 +7,9 @@ var spawn   = require('child_process').spawn;
 var _        = require('lodash');
 var shell    = require('shelljs');
 
-var git_bin = process.platform == 'win32' ? 'git.exe' : 'git';
-var meteor_bin = process.platform == 'win32' ? 'meteor.bat' : 'meteor';
-var node_bin = process.platform == 'win32' ? 'node.exe' : 'node';
+var git_bin = process.platform === 'win32' ? 'git.exe' : 'git';
+var meteor_bin = process.platform === 'win32' ? 'meteor.bat' : 'meteor';
+var node_bin = process.platform === 'win32' ? 'node.exe' : 'node';
 
 var NODE_MODS = path.join(__dirname, 'node_modules');
 var ISTANBUL  = path.join(NODE_MODS, 'istanbul', 'lib', 'cli.js');
@@ -66,7 +66,37 @@ target.dev = function(action){
   });
 };
 
+// package test app and start
+target['dev.package'] = function(action){
+  var leaderboard             = path.join(__dirname, '..', 'leaderboard');
+  var leaderboard_electrify   = path.join(leaderboard, '.electrify');
+  var leaderboard_electrified = path.join(leaderboard_electrify, '.dist', 'my-electrified-app' , 'my-electrified-app');
 
+  log('packing in dev mode');
+
+  if(~'reset'.indexOf(action))
+    shell.rm('-rf', leaderboard_electrify);
+
+  var packageProcess = spawn('node', [path.join(__dirname, 'bin', 'cli.js'), 'package'], {
+    cwd: leaderboard,
+    stdio: 'inherit',
+    env: _.extend(_.clone(process.env), {
+      DEVELECTRIFY: true,
+      LOGELECTRIFY: 'ALL',
+      ELECTRIFY_DIST_APP_DIR_NAME: 'my-electrified-app'
+    })
+  });
+
+  packageProcess.on('close', function() {
+    spawn(leaderboard_electrified, [], {
+      stdio: 'inherit',
+      env: _.extend(_.clone(process.env), {
+        DEVELECTRIFY: true,
+        LOGELECTRIFY: 'ALL'
+      })
+    });
+  });
+};
 
 // tests
 target.test = function() {
@@ -139,14 +169,14 @@ target['update.version'] = function(version) {
   replacement  = '"version": "'+ version[0];
   filepath     = path.join(__dirname, 'package.json');
   content      = fs.readFileSync(filepath, 'utf-8');
-  content      = content.replace(/"version":\s*"[0-9\.]+/i, replacement);
+  content      = content.replace(/"version":\s*"[0-9.]+/i, replacement);
   fs.writeFileSync(filepath, content);
 
   // lib/env.js
   replacement  = 'this.version = \''+ version[0];
   filepath     = path.join(__dirname, 'lib', 'env.js');
   content      = fs.readFileSync(filepath, 'utf-8');
-  content      = content.replace(/this.version = '[0-9\.]+/i, replacement);
+  content      = content.replace(/this.version = '[0-9.]+/i, replacement);
   fs.writeFileSync(filepath, content);
 
   //HISTORY.md

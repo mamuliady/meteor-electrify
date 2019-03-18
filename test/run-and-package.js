@@ -1,8 +1,9 @@
-var defaultElectrifyStopTimeout = process.env.ELECTRIFY_TESTS_DEFAULT_STOP_TIMEOUT || 15000;
+var defaultElectrifyStopTimeout = process.env.ELECTRIFY_TESTS_DEFAULT_STOP_TIMEOUT || 20000;
 
-function ElectrifyStopHandler(electrify, timeout) {
-  if (timeout === undefined) {
-    timeout = defaultElectrifyStopTimeout;
+function ElectrifyStopHandler(electrify, additionalTimeout) {
+  var timeout = defaultElectrifyStopTimeout;
+  if (typeof additionalTimeout === 'number') {
+    timeout += additionalTimeout;
   }
   var toh = setTimeout(function() {
     electrify.stop();
@@ -255,7 +256,7 @@ describe('[electrify] run and package', function(){
       }
     });
 
-    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify);
+    var electrifyStopHandler = new ElectrifyStopHandler(new_electrify, 10000);
 
     new_electrify.start(function(){
 
