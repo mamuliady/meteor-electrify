@@ -12,8 +12,8 @@ describe('[electrify] .electrified dependencies', function(){
 
   var stdio_config = 'inherit';
 
-  var meteor_bin = 'meteor' + (process.platform == 'win32' ? '.bat' : '');
-  var git_bin = 'git' + (process.platform == 'win32' ? '.exe' : '');
+  var meteor_bin = 'meteor' + (process.platform === 'win32' ? '.bat' : '');
+  var git_bin = 'git' + (process.platform === 'win32' ? '.exe' : '');
 
   var Electrify = require('../lib');
 

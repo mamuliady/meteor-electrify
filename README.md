@@ -1,4 +1,9 @@
-# (Meteor-)Electrify [![windows](https://img.shields.io/appveyor/ci/Mairu/meteor-electrify.svg?label=windows)](https://ci.appveyor.com/project/Mairu/meteor-electrify) [![travis](https://img.shields.io/travis/Mairu/meteor-electrify/master.svg?label=osx/linux)](https://travis-ci.org/Mairu/meteor-electrify) [![Test Coverage](https://api.codeclimate.com/v1/badges/949100a773b27b0ffc12/test_coverage)](https://codeclimate.com/github/Mairu/meteor-electrify/test_coverage)
+# (Meteor-)Electrify
+[![npm](https://img.shields.io/npm/v/meteor-electrify.svg?logo=npm)](https://www.npmjs.com/package/meteor-electrify)
+[![travis](https://img.shields.io/travis/Mairu/meteor-electrify/master.svg?label=build%20osx/linux&logo=travis-ci)](https://travis-ci.org/Mairu/meteor-electrify)
+[![windows](https://img.shields.io/appveyor/ci/Mairu/meteor-electrify.svg?label=build%20windows&logo=appveyor)](https://ci.appveyor.com/project/Mairu/meteor-electrify)
+[![Dependencies](https://img.shields.io/david/Mairu/meteor-electrify.svg)](https://david-dm.org/Mairu/meteor-electrify)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/949100a773b27b0ffc12/test_coverage)](https://codeclimate.com/github/Mairu/meteor-electrify/test_coverage)
 
 Easily package your Meteor apps with Electron, and *butter*.
 
@@ -91,7 +96,7 @@ electrify package
 The packaging process is done under the hood using `electron-packager`
 npm package. The following variables are automatically set:
 
-  * `--out` -- *comes from cli option [-o, --out]*
+  * `--out` -- *comes from cli option [-o, --output]*
   * `--arch` -- *comes from system [current arch]*
   * `--platform` -- *comes from system [current platform]*
   * `--app-version` -- *comes from .electrify/package.json [current app version]*
@@ -255,7 +260,7 @@ electrify.methods({
 });
 ````
 
-Then, in your Meteor code (client and server), you can use the meteor-electrify-client to call these methods. 
+Then, in your Meteor code (client and server), you can use the [meteor-electrify-client](https://www.npmjs.com/package/meteor-electrify-client) to call these methods. 
 
 ## Upgrading
 
@@ -298,5 +303,5 @@ the version of Meteor and Electrify, and any other info you may find usefull.
 
 The MIT License (MIT)
 
-Copyright (c) 2017-2019 Sebastian Große  
+Copyright (c) 2017-2019 Sebastian Große
 Electrify originally created by Copyright (c) 2015 Anderson Arboleya

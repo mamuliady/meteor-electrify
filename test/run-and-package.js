@@ -1,4 +1,4 @@
-var defaultElectrifyStopTimeout = process.env.ELECTRIFY_TESTS_DEFAULT_STOP_TIMEOUT || 20000;
+var defaultElectrifyStopTimeout = parseInt(process.env.ELECTRIFY_TESTS_DEFAULT_STOP_TIMEOUT, 10) || 20000;
 
 function ElectrifyStopHandler(electrify, additionalTimeout) {
   var timeout = defaultElectrifyStopTimeout;
@@ -99,7 +99,7 @@ describe('[electrify] run and package', function(){
           JSON.stringify({name: "meteor-leaderboard-example"}));
 
         // add electrify client package
-        spawn(meteor_bin, ['npm', 'install', '--save', 'meteor-electrify-client'], {
+        spawn(meteor_bin, ['npm', 'install', '--save', 'meteor-electrify-client@^2.0.0'], {
           cwd: meteor_app_dir,
           stdio: stdio_config,
           env: process.env
@@ -226,25 +226,24 @@ describe('[electrify] run and package', function(){
 
     var leaderboard         = path.join(meteor_app_dir, 'leaderboard.js');
     var leaderboard_content = fs.readFileSync(leaderboard, 'utf8');
-    var leaderboard_call    = [
-      "var ElectrifyClient = Npm.require('meteor-electrify-client').ElectrifyClient;",
-      "var Electrify = new ElectrifyClient();",
-      "Electrify.startup(function() {",
-      "  if(Meteor.isClient) return;",
-      "  var fs = Npm.require('fs');",
-      "  var path = Npm.require('path');",
-      "  Electrify.call('sum', [4, 2], function(err, res) {",
-      "    console.log(arguments);",
-      "    console.log('>>', '"+ method_sum_path +"');",
-      "    fs.writeFileSync('"+ method_sum_path +"', res);",
-      "  });",
-      "  Electrify.call('yellow.elephant', [4, 2], function(err, res) {",
-      "    console.log(arguments);",
-      "    console.log('>>', '"+ method_err_path +"');",
-      "    fs.writeFileSync('"+ method_err_path +"', err.message);",
-      "  });",
-      "});"
-    ].join('\n');
+    var leaderboard_call    =
+      `var ElectrifyClient = Npm.require('meteor-electrify-client').ElectrifyClient;
+      var Electrify = new ElectrifyClient(Meteor, Random);
+      Electrify.startup(function() {
+        if(Meteor.isClient) return;
+        var fs = Npm.require('fs');
+        var path = Npm.require('path');
+        Electrify.call('sum', [4, 2], function(err, res) {
+          console.log(arguments);
+          console.log('>>', '${method_sum_path}');
+          fs.writeFileSync('${method_sum_path}', res);
+        });
+        Electrify.call('yellow.elephant', [4, 2], function(err, res) {
+          console.log(arguments);
+          console.log('>>', '${method_err_path}');
+          fs.writeFileSync('${method_err_path}', err.message);
+        });
+      });`;
 
     fs.writeFileSync(leaderboard, leaderboard_content + leaderboard_call);
 
