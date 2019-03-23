@@ -194,16 +194,40 @@ See this folder as the `desktop layer` for your Meteor app. Remember to check
 out the `index.js` file, it constains the electrify start/stop usage.
 
 The `electrify.json` file will hold specific preferences for Electrify, such as
-plugins and so on. It's still a WIP, but you can get around it.
+plugins and so on.
+If you want other settings during development than for bundling you can create a `electrify.local.json` file
+which will be used instead of `electrify.json` as long the app is not packaged. Be aware that nothing will be merged.
 
-### Config (`electrify.json`)
+### Config (`electrify.json` / `electrify.local.json`)
 
-For now there are only two options here:
+Following options are available:
 
 1. `preserve_db` - Set it to true to preserve database between installs. It works by saving the
                    mongo data dir inside user's data folder, instead of being self contained within
                    the app folder (which gets deleted when new version is installed).
 2. `port`        - Set a port to be used while in dev mode (can also be set by PORT environment variable)
+3. `mongo`       - Possibility to use an external Mongo database (ATTENTION: You cannot hide the credentials safely, be sure you want to give them out!)<br>
+   Alternatively you can use [DDP connections to connect to an external Meteor server](https://docs.meteor.com/api/connections.html#DDP-connect).<br>
+   This option is an object of following [Meteor environment variables](https://docs.meteor.com/environment-variables.html):
+   - MONGO_URL
+   - MONGO_OPLOG_URL
+   
+   To allow a bit of safety, you can give a filepath to a javascript file that exports a function that sets the variables.
+   So it is on you to secure the URLs (But it cannot be safe!) Filepath is relative to .electrify folder.
+````javascript
+// sample file to define mongo urls
+// "mongo": "mongo.js" -> .electrify/mongo.js
+/**
+* Function to set the mongo related env variables
+* @param {object} env set mongo url env var to this object
+* @param {object} config parsed electrify.json
+* @param {function} done call this if you are done
+*/
+module.exports = function(env, config, done) {
+  env.MONGO_URL = '...';
+  done();
+}
+```` 
 
 # Customizing
 
