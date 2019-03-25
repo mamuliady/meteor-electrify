@@ -13,7 +13,7 @@ var node_bin = process.platform === 'win32' ? 'node.exe' : 'node';
 
 var NODE_MODS = path.join(__dirname, 'node_modules');
 var ISTANBUL  = path.join(NODE_MODS, 'istanbul', 'lib', 'cli.js');
-var MOCHA    = path.join(NODE_MODS, 'mocha', 'bin', 'mocha');
+var MOCHA    = path.join(NODE_MODS, 'mocha', 'bin', '_mocha');
 var NPMCHECK  = path.join(NODE_MODS, 'npm-check', 'lib', 'cli.js');
 var CODECLIMATE_TEST_REPORTER =
   path.join(NODE_MODS, 'codeclimate-test-reporter', 'bin', 'codeclimate.js');
