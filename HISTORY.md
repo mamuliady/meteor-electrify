@@ -1,4 +1,4 @@
-4.0.0 / {{DATE..}}
+4.0.0 / 2019-03-25
 ===================
   * **BREAKING CHANGE** remove electron as direct dependency to allow using a self chosen version
   * use binaries of meteor project version instead of meteor tool version
@@ -7,6 +7,7 @@
   * add port config option / read PORT env in dev mode 
   * add config option to use external mongodb
   * add support for electrify.local.json in development
+  * use mongo mmapv1 storage engine on windows only for mongo 3.2 (32 bit) 
 
 3.0.0 / 2017-07-31
 ==================

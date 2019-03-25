@@ -13,7 +13,7 @@ var node_bin = process.platform === 'win32' ? 'node.exe' : 'node';
 
 var NODE_MODS = path.join(__dirname, 'node_modules');
 var ISTANBUL  = path.join(NODE_MODS, 'istanbul', 'lib', 'cli.js');
-var _MOCHA    = path.join(NODE_MODS, 'mocha', 'bin', '_mocha');
+var MOCHA    = path.join(NODE_MODS, 'mocha', 'bin', 'mocha');
 var NPMCHECK  = path.join(NODE_MODS, 'npm-check', 'lib', 'cli.js');
 var CODECLIMATE_TEST_REPORTER =
   path.join(NODE_MODS, 'codeclimate-test-reporter', 'bin', 'codeclimate.js');
@@ -100,7 +100,7 @@ target['dev.package'] = function(action){
 
 // tests
 target.test = function() {
-  spawn(node_bin, [_MOCHA, 'test'], {
+  spawn(node_bin, [MOCHA, 'test'], {
     stdio: 'inherit',
     env: _.extend({
       DEVELECTRIFY: true,
@@ -111,7 +111,7 @@ target.test = function() {
 };
 
 target['test.cover'] = function(done){
-  spawn(node_bin, [ISTANBUL, 'cover', _MOCHA], {
+  spawn(node_bin, [ISTANBUL, 'cover', MOCHA], {
     stdio: 'inherit',
     env: _.extend({
       DEVELECTRIFY: true,
@@ -190,8 +190,8 @@ target['update.version'] = function(version) {
   ].join('\n'));
 };
 
-target['deps.check'] = function(){
-  spawn(node_bin, [NPMCHECK], {
+target['deps.check'] = function(args){
+  spawn(node_bin, [NPMCHECK, ...args], {
     stdio: 'inherit'
   });
 };
