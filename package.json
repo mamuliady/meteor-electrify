@@ -1,5 +1,5 @@
 {
-  "name": "meteor-electrify",
+  "name": "@megatroncupcakes/meteor-electrify",
   "version": "4.0.0",
   "main": "lib/index.js",
   "bin": {
@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mairu/meteor-electrify"
+    "url": "git+https://github.com/megatroncupcakes/meteor-electrify.git"
   },
   "keywords": [
     "electron",
@@ -47,7 +47,14 @@
     "desktop"
   ],
   "bugs": {
-    "url": "https://github.com/mairu/meteor-electrify/issues"
+    "url": "https://github.com/megatroncupcakes/meteor-electrify/issues"
   },
-  "homepage": "https://github.com/mairu/meteor-electrify"
+  "homepage": "https://github.com/megatroncupcakes/meteor-electrify",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
 }
