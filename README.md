@@ -10,7 +10,7 @@ Easily package your Meteor apps with Electron, and *butter*.
 ## TL;DR
 
 ````shell
-npm install -g meteor-electrify electron
+npm install -g @megatroncupcakes/meteor-electrify electron
 cd /your/meteor/app
 electrify
 ````
