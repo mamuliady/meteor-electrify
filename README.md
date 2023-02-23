@@ -1,9 +1,4 @@
 # (Meteor-)Electrify
-[![npm](https://img.shields.io/npm/v/meteor-electrify.svg?logo=npm)](https://www.npmjs.com/package/meteor-electrify)
-[![travis](https://img.shields.io/travis/Mairu/meteor-electrify/master.svg?label=build%20osx/linux&logo=travis-ci)](https://travis-ci.org/Mairu/meteor-electrify)
-[![windows](https://img.shields.io/appveyor/ci/Mairu/meteor-electrify.svg?label=build%20windows&logo=appveyor)](https://ci.appveyor.com/project/Mairu/meteor-electrify)
-[![Dependencies](https://img.shields.io/david/Mairu/meteor-electrify.svg)](https://david-dm.org/Mairu/meteor-electrify)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/949100a773b27b0ffc12/test_coverage)](https://codeclimate.com/github/Mairu/meteor-electrify/test_coverage)
 
 Easily package your Meteor apps with Electron, and *butter*.
 
@@ -66,15 +61,8 @@ $ electrify -h
 Install meteor-electrify and electron globally:
 
 ````shell
-npm install -g meteor-electrify electron
+npm install -g @megatroncupcakes/meteor-electrify electron
 ````
-
-Alternatively you can install meteor-electrify and electron as dev dependency in you meteor application:
-
-````shell
-npm install --save-dev meteor-electrify electron
-````
-
 > For invoking Electron methods from Meteor, you'll also need to install the
 > `meteor-electrify-client` package in your project.
 > For more info check [Meteor x Electron integration](#meteor-x-electron-integration).
