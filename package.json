@@ -1,6 +1,6 @@
 {
   "name": "@megatroncupcakes/meteor-electrify",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "main": "lib/index.js",
   "bin": {
     "electrify": "bin/cli.js"
@@ -26,7 +26,8 @@
     "semver": "^5.6.0",
     "server-destroy": "^1.0.1",
     "shelljs": "^0.8.3",
-    "sockjs": "^0.3.19"
+    "sockjs": "^0.3.19",
+    "to-camel-case": "^1.0.0"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
