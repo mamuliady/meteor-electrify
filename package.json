@@ -1,6 +1,6 @@
 {
   "name": "@megatroncupcakes/meteor-electrify",
-  "version": "4.0.2",
+  "version": "4.0.4",
   "main": "lib/index.js",
   "bin": {
     "electrify": "bin/cli.js"
