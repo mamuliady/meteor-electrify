@@ -103,17 +103,37 @@ All the available options for `electron-packager` can be found here:
 https://github.com/electron-userland/electron-packager/blob/master/usage.txt
 
 
-Alternatively you can add an electronPackager object in package.json of the .electrify folder
+Alternatively you can add an electronPackager object in your project's package.json
 with [options for the electron-packager](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md). For the icon property it is possible to provide an object
-instead of string to define different icons for the different platforms.
+instead of string to define different icons for the different platforms. You can also optionally define a splashscreen to show on startup.
 f.e.
 ```json
 {
   "electronPackager": {
-     "icon": {
-       "win32": "../something.ico",
-       "darwin": "../mac.icns"
-     }
+    "icon": {
+      "darwin": "../macIcon.icns",
+      "linux": "../linuxIcon.png",
+      "win32": "../windowsIcon.ico"
+    },
+    "splashScreen": {
+      "file": "../splashScreen.html",
+      "windowConfiguration": {
+        "width": 600, 
+        "height": 400, 
+        "transparent": false,
+        "frame": false, 
+        "alwaysOnTop": true
+      }
+    },
+    "osx-sign": {
+      "identity": null,
+      "entitlements": null,
+      "entitlements-inherit": null
+    },
+    "osx-notarize": {
+      "appleId": null,
+      "appleIdPassword": null
+    }
   }
 }
 ```
