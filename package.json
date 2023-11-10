@@ -1,6 +1,6 @@
 {
   "name": "@megatroncupcakes/meteor-electrify",
-  "version": "4.0.11",
+  "version": "4.0.15",
   "main": "lib/index.js",
   "bin": {
     "electrify": "bin/cli.js"
@@ -23,6 +23,7 @@
     "electron-packager": "^13.1.1",
     "electron-squirrel-startup": "^1.0.0",
     "fs-extra": "^7.0.1",
+    "graceful-fs": "^4.2.11",
     "lodash": "^4.17.11",
     "semver": "^5.6.0",
     "server-destroy": "^1.0.1",

@@ -294,6 +294,11 @@ electrify.methods({
 
 Then, in your Meteor code (client and server), you can use the [meteor-electrify-client](https://www.npmjs.com/package/meteor-electrify-client) to call these methods. 
 
+
+## Meteor NodeJs
+
+To change meteorjs node port, change the first parameter for this.$.freeport in NodeJS.prototype.start function
+
 ## Upgrading
 
 When upgrading to newer versions, it's **important** to know that:
