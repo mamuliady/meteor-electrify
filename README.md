@@ -222,6 +222,8 @@ Following options are available:
    
    To allow a bit of safety, you can give a filepath to a javascript file that exports a function that sets the variables.
    So it is on you to secure the URLs (But it cannot be safe!) Filepath is relative to .electrify folder.
+
+4. `meteor_server_port`       - Experimental to defined initial meteor server port
 ````javascript
 // sample file to define mongo urls
 // "mongo": "mongo.js" -> .electrify/mongo.js
